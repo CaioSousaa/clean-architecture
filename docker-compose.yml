@@ -1,0 +1,13 @@
+version: "3"
+services:
+  database:
+    container_name: "clean-architecture-db"
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${NAME}
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
