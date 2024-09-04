@@ -1,25 +1,16 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../../infra/db/entities/user/user";
+import { CreateTableUser1725482215943 } from "../../infra/db/migrations/1725482215943-create-table-user";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   port: 5432,
   username: process.env.USER,
-  password: process.env.PASSWORD,
+  password: String(process.env.PASSWORD),
   database: process.env.NAME,
-  synchronize: true,
-  logging: false,
   entities: [User],
-  migrations: [],
-  subscribers: [],
+  migrations: [CreateTableUser1725482215943],
+  migrationsRun: true,
 });
-
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((err) => {
-    console.log("Error during Data Source initialization:", err);
-  });
