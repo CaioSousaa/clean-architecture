@@ -1,4 +1,4 @@
-import express from "express";
+import * as express from "express";
 import { initializationError } from "../middleware/initialization-error-";
 
 const app = express();
