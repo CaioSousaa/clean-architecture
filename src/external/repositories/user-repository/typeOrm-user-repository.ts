@@ -4,6 +4,14 @@ import { AppDataSource } from "../../postgres/data-source";
 import { UserEntityDb } from "../../../infra/db/entities/user/user";
 
 export class TypeOrmUserRepository implements IUserRepository {
+  async findUserById(id: string): Promise<User> {
+    const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
+      id: id,
+    });
+
+    return user;
+  }
+
   async getAllUsers(): Promise<User[]> {
     const users = await AppDataSource.getRepository(UserEntityDb).find();
 
