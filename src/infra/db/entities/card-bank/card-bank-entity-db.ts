@@ -5,11 +5,11 @@ export class CardBankEntityDb extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 3 })
+  @Column()
   cvv: number;
 
   @Column({ length: 6 })
-  validity;
+  validity: string;
 
   @Column()
   id_user: string;
