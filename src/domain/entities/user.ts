@@ -1,3 +1,5 @@
+import { CardBank } from "../card-bank/card-bank";
+
 export class User {
   id?: string;
   first_name: string;
@@ -5,6 +7,10 @@ export class User {
   age: number;
   unique_identifier: string;
   address: string;
+  status_plan: boolean;
+  email: string;
+  password: string;
+  card_bank: CardBank;
   created_at: Date;
 
   constructor({
@@ -14,6 +20,10 @@ export class User {
     unique_identifier,
     address,
     created_at,
+    email,
+    password,
+    status_plan,
+    card_bank,
   }: User) {
     Object.assign(this, {
       first_name,
@@ -22,6 +32,10 @@ export class User {
       unique_identifier,
       address,
       created_at,
+      email,
+      password,
+      status_plan,
+      card_bank,
     });
   }
 
@@ -31,6 +45,10 @@ export class User {
     age,
     unique_identifier,
     address,
+    email,
+    password,
+    status_plan,
+    card_bank,
   }: User) {
     const user = new User({
       first_name,
@@ -38,6 +56,10 @@ export class User {
       age,
       address,
       unique_identifier,
+      email,
+      password,
+      status_plan,
+      card_bank,
       created_at: new Date(),
     });
 

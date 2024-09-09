@@ -1,7 +1,7 @@
 import { User } from "../../../domain/entities/user";
 import { IUserRepository } from "../../../usecases/ports/IUser-respository";
 import { AppDataSource } from "../../postgres/data-source";
-import { UserEntityDb } from "../../../infra/db/entities/user/user";
+import { UserEntityDb } from "../../../infra/db/entities/user/user-entity-db";
 
 export class TypeOrmUserRepository implements IUserRepository {
   async findUserById(id: string): Promise<User> {
