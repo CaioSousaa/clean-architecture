@@ -26,7 +26,7 @@ export class UserEntityDb extends BaseEntity {
   status_plan: boolean;
 
   @OneToOne(() => CardBankEntityDb)
-  @JoinColumn()
+  @JoinColumn({ name: "card_bank_id" })
   card_bank: CardBankEntityDb;
 
   @Column({ length: 100 })

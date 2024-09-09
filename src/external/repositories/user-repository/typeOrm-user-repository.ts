@@ -36,6 +36,10 @@ export class TypeOrmUserRepository implements IUserRepository {
     address,
     age,
     unique_identifier,
+    card_bank,
+    email,
+    status_plan,
+    password,
   }: User): Promise<User> {
     const user = AppDataSource.getRepository(UserEntityDb).create({
       first_name,
@@ -43,6 +47,10 @@ export class TypeOrmUserRepository implements IUserRepository {
       address,
       age,
       unique_identifier,
+      email,
+      card_bank,
+      password,
+      status_plan,
       created_at: new Date(),
     });
 

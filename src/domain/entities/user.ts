@@ -1,4 +1,4 @@
-import { CardBank } from "../card-bank/card-bank";
+import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-entity-db";
 
 export class User {
   id?: string;
@@ -10,7 +10,7 @@ export class User {
   status_plan: boolean;
   email: string;
   password: string;
-  card_bank: CardBank;
+  card_bank: CardBankEntityDb;
   created_at: Date;
 
   constructor({
