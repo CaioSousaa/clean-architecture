@@ -2,12 +2,21 @@ import { AppError } from "../../adapters/errors/app-error";
 import { IUserRepository } from "../ports/IUser-respository";
 import { User } from "../../domain/entities/user";
 import { validateUniqueIdentifierFunction } from "./functions/validate-unique_identifier-function";
-import { UserValidationDTO } from "./user-validation-dto";
+import { CreateUserDTO } from "./dto/create-user-dto";
 
 export class CreateUser {
   constructor(private userRepository: IUserRepository) {}
-  async execute(parseData: UserValidationDTO) {
-    const cpf = validateUniqueIdentifierFunction(parseData.unique_identifier);
+  async execute({
+    address,
+    age,
+    email,
+    first_name,
+    password,
+    status_plan,
+    surname,
+    unique_identifier,
+  }: CreateUserDTO) {
+    const cpf = validateUniqueIdentifierFunction(unique_identifier);
 
     if (!cpf) {
       throw new AppError(
@@ -17,9 +26,7 @@ export class CreateUser {
     }
 
     const uniqueIdentifer =
-      await this.userRepository.uniqueIdenfierAlreadyExists(
-        parseData.unique_identifier
-      );
+      await this.userRepository.uniqueIdenfierAlreadyExists(unique_identifier);
 
     if (uniqueIdentifer) {
       throw new AppError(
@@ -29,15 +36,15 @@ export class CreateUser {
     }
 
     const user: User = User.create({
-      address: parseData.address,
-      age: parseData.age,
-      unique_identifier: parseData.unique_identifier,
-      first_name: parseData.first_name,
-      surname: parseData.surname,
+      address,
+      age,
+      unique_identifier,
+      first_name,
+      surname,
       card_bank: null,
-      email: parseData.email,
-      password: parseData.password,
-      status_plan: parseData.status_plan,
+      email,
+      password,
+      status_plan: false,
       created_at: new Date(),
     });
 
