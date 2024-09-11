@@ -9,7 +9,7 @@ export class CardBankEntityDb extends BaseEntity {
   cvv: number;
 
   @Column({ length: 6 })
-  validity: string;
+  validaty: string;
 
   @Column()
   id_user: string;
