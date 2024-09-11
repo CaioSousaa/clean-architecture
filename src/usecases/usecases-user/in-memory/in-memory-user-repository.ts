@@ -3,7 +3,7 @@ import { IUserRepository } from "../../ports/IUser-respository";
 import { v4 as uuid } from "uuid";
 
 export class InMemoryUserRepository implements IUserRepository {
-  private users: User[];
+  private users: User[] = [];
   async create(user: User): Promise<User> {
     Object.assign(user, {
       id: uuid(),
