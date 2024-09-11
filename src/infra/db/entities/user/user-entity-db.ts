@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -25,9 +26,8 @@ export class UserEntityDb extends BaseEntity {
   @Column("boolean")
   status_plan: boolean;
 
-  @OneToOne(() => CardBankEntityDb)
-  @JoinColumn({ name: "card_bank_id" })
-  card_bank: CardBankEntityDb;
+  @OneToMany(() => CardBankEntityDb, (cardBankDB) => cardBankDB.user)
+  card_bank: CardBankEntityDb[];
 
   @Column({ length: 100 })
   surname: string;

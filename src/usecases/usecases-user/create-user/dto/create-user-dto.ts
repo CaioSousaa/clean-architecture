@@ -7,7 +7,4 @@ export class CreateUserDTO {
   age: number;
   address: string;
   status_plan: boolean;
-  cvv: number;
-  validaty: string;
-  number_card: number;
 }

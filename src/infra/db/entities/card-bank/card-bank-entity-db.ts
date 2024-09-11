@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { UserEntityDb } from "../user/user-entity-db";
 
 @Entity("card_bank")
 export class CardBankEntityDb extends BaseEntity {
@@ -11,8 +18,8 @@ export class CardBankEntityDb extends BaseEntity {
   @Column({ length: 6 })
   validaty: string;
 
-  @Column()
-  id_user: string;
+  @ManyToOne(() => UserEntityDb, (user) => user.card_bank)
+  user: UserEntityDb;
 
   @Column()
   number_card: number;

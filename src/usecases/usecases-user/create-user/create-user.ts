@@ -6,14 +6,9 @@ import { CreateUserDTO } from "./dto/create-user-dto";
 import { bcryptPassword } from "./functions/bcrypt-password";
 import { validPasswordFunction } from "./functions/valid-password";
 import { validEmailFunction } from "./functions/valid-email";
-import { ICardBankRepository } from "../../ports/ICard-bank-repository";
-import { CardBank } from "../../../domain/entities/card-bank";
 
 export class CreateUser {
-  constructor(
-    private userRepository: IUserRepository,
-    private cardBankRepository: ICardBankRepository
-  ) {}
+  constructor(private userRepository: IUserRepository) {}
   async execute({
     address,
     age,
@@ -22,9 +17,6 @@ export class CreateUser {
     password,
     surname,
     unique_identifier,
-    cvv,
-    number_card,
-    validaty,
   }: CreateUserDTO) {
     try {
       const cpf = validateUniqueIdentifierFunction(unique_identifier);
@@ -78,17 +70,6 @@ export class CreateUser {
       });
 
       const createdUser = await this.userRepository.create(user);
-
-      const cardBank: CardBank = CardBank.create({
-        cvv,
-        id_user: createdUser.id,
-        number_card,
-        validaty,
-      });
-
-      const createCardBank = await this.cardBankRepository.create(cardBank);
-
-      createdUser.card_bank = createCardBank;
 
       delete createdUser.password;
 
