@@ -1,3 +1,4 @@
+import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-entity-db";
 import { CardBank } from "./card-bank";
 
 export class User {
@@ -10,7 +11,7 @@ export class User {
   status_plan: boolean;
   email: string;
   password: string;
-  card_bank: CardBank;
+  card_bank: CardBankEntityDb[];
   created_at: Date;
 
   constructor({
