@@ -6,9 +6,14 @@ import { CreateUserDTO } from "./dto/create-user-dto";
 import { bcryptPassword } from "./functions/bcrypt-password";
 import { validPasswordFunction } from "./functions/valid-password";
 import { validEmailFunction } from "./functions/valid-email";
+import { ICardBankRepository } from "../ports/ICard-bank-repository";
+import { CardBank } from "../../domain/entities/card-bank";
 
 export class CreateUser {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private cardBankRepository: ICardBankRepository
+  ) {}
   async execute({
     address,
     age,
@@ -17,6 +22,9 @@ export class CreateUser {
     password,
     surname,
     unique_identifier,
+    cvv,
+    number_card,
+    validaty,
   }: CreateUserDTO) {
     try {
       const cpf = validateUniqueIdentifierFunction(unique_identifier);
@@ -24,21 +32,21 @@ export class CreateUser {
       if (!cpf) {
         throw new AppError(
           "we're sorry, but the unique identifier is invalid",
-          401
+          400
         );
       }
 
       if (!validEmailFunction(email)) {
         throw new AppError(
           "the email must meet the format: xxxx@gmail.com",
-          401
+          400
         );
       }
 
       if (!validPasswordFunction(password)) {
         throw new AppError(
           "the password must contain: Lowercase and uppercase letters, numbers and symbols",
-          401
+          400
         );
       }
 
@@ -69,11 +77,22 @@ export class CreateUser {
         created_at: new Date(),
       });
 
-      const createUser = await this.userRepository.create(user);
+      const createdUser = await this.userRepository.create(user);
 
-      delete createUser.password;
+      const cardBank: CardBank = CardBank.create({
+        cvv,
+        id_user: createdUser.id,
+        number_card,
+        validaty,
+      });
 
-      return createUser;
+      const createCardBank = await this.cardBankRepository.create(cardBank);
+
+      createdUser.card_bank = createCardBank;
+
+      delete createdUser.password;
+
+      return createdUser;
     } catch (err) {
       return err;
     }

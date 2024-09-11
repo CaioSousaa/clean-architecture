@@ -13,6 +13,9 @@ export class CreateUserController {
       password,
       email,
       status_plan,
+      cvv,
+      number_card,
+      validaty,
     } = req.body;
 
     const user = await this.createUserUseCase.execute({
@@ -24,6 +27,9 @@ export class CreateUserController {
       email,
       password,
       status_plan,
+      cvv,
+      number_card,
+      validaty,
     });
 
     res.status(201).json(user);
