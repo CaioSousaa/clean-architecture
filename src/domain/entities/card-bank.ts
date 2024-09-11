@@ -1,22 +1,22 @@
 export class CardBank {
   id?: string;
-  validity: number;
+  validaty: string;
   cvv: number;
   number_card: number;
   id_user: string;
 
-  constructor({ validity, cvv, number_card, id_user }: CardBank) {
+  constructor({ validaty, cvv, number_card, id_user }: CardBank) {
     Object.assign(this, {
-      validity,
+      validaty,
       cvv,
       id_user,
       number_card,
     });
   }
 
-  static create({ validity, cvv, id_user, number_card }: CardBank) {
+  static create({ validaty, cvv, id_user, number_card }: CardBank) {
     const cardBank = new CardBank({
-      validity,
+      validaty,
       cvv,
       number_card,
       id_user,
