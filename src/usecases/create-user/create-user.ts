@@ -4,6 +4,8 @@ import { User } from "../../domain/entities/user";
 import { validateUniqueIdentifierFunction } from "./functions/validate-unique_identifier-function";
 import { CreateUserDTO } from "./dto/create-user-dto";
 import { bcryptPassword } from "./functions/bcrypt-password";
+import { validPasswordFunction } from "./functions/valid-password";
+import { validEmailFunction } from "./functions/valid-email";
 
 export class CreateUser {
   constructor(private userRepository: IUserRepository) {}
@@ -22,6 +24,20 @@ export class CreateUser {
       if (!cpf) {
         throw new AppError(
           "we're sorry, but the unique identifier is invalid",
+          401
+        );
+      }
+
+      if (!validEmailFunction(email)) {
+        throw new AppError(
+          "the email must meet the format: xxxx@gmail.com",
+          401
+        );
+      }
+
+      if (!validPasswordFunction(password)) {
+        throw new AppError(
+          "the password must contain: Lowercase and uppercase letters, numbers and symbols",
           401
         );
       }
