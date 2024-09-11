@@ -1,4 +1,4 @@
-import { IUserRepository } from "../ports/IUser-respository";
+import { IUserRepository } from "../../ports/IUser-respository";
 
 export class GetAllUsers {
   constructor(private userRepository: IUserRepository) {}

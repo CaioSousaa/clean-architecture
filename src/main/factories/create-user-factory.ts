@@ -1,5 +1,5 @@
 import { TypeOrmUserRepository } from "../../external/repositories/user-repository/typeOrm-user-repository";
-import { CreateUser } from "../../usecases/create-user/create-user";
+import { CreateUser } from "../../usecases/usecases-user/create-user/create-user";
 import { CreateUserController } from "../../adapters/presentation/controllers/user-controller/create-user-controller";
 import { TypeOrmCardBankRepository } from "../../external/repositories/card-bank-repository/typeOrm-card-bank-repository";
 

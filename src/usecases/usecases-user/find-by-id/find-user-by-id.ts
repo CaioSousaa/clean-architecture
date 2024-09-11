@@ -1,5 +1,5 @@
-import { AppError } from "../../adapters/errors/app-error";
-import { IUserRepository } from "../ports/IUser-respository";
+import { AppError } from "../../../adapters/errors/app-error";
+import { IUserRepository } from "../../ports/IUser-respository";
 import { IFindByIdDTO } from "./dto/IFind-by-id-DTO";
 
 export class FindUserByIdUseCase {

@@ -1,13 +1,13 @@
-import { AppError } from "../../adapters/errors/app-error";
-import { IUserRepository } from "../ports/IUser-respository";
-import { User } from "../../domain/entities/user";
+import { AppError } from "../../../adapters/errors/app-error";
+import { IUserRepository } from "../../ports/IUser-respository";
+import { User } from "../../../domain/entities/user";
 import { validateUniqueIdentifierFunction } from "./functions/validate-unique_identifier-function";
 import { CreateUserDTO } from "./dto/create-user-dto";
 import { bcryptPassword } from "./functions/bcrypt-password";
 import { validPasswordFunction } from "./functions/valid-password";
 import { validEmailFunction } from "./functions/valid-email";
-import { ICardBankRepository } from "../ports/ICard-bank-repository";
-import { CardBank } from "../../domain/entities/card-bank";
+import { ICardBankRepository } from "../../ports/ICard-bank-repository";
+import { CardBank } from "../../../domain/entities/card-bank";
 
 export class CreateUser {
   constructor(

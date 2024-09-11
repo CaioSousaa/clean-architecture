@@ -1,4 +1,4 @@
-import { FindUserByIdUseCase } from "../../../../usecases/find-by-id/find-user-by-id";
+import { FindUserByIdUseCase } from "../../../../usecases/usecases-user/find-by-id/find-user-by-id";
 import { Request, Response } from "express";
 
 export class FindUserByIdController {
