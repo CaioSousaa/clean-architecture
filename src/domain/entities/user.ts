@@ -1,5 +1,4 @@
 import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-entity-db";
-import { CardBank } from "./card-bank";
 
 export class User {
   id?: string;
