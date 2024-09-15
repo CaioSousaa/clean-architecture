@@ -2,19 +2,24 @@ require("dotenv").config();
 import { User } from "../../../domain/entities/user";
 import { CreateUser } from "./create-user";
 import { IUserRepository } from "../../ports/IUser-respository";
-import { InMemoryUserRepository } from "../in-memory/in-memory-user-repository";
+
+jest.mock("../in-memory/in-memory-user-repository");
 
 describe("create-user", () => {
-  let inMemoryUserRepository: IUserRepository;
+  let inMemoryUserRepository: jest.Mocked<IUserRepository>;
   let createUserUseCase: CreateUser;
 
   beforeEach(() => {
-    inMemoryUserRepository = new InMemoryUserRepository();
+    const {
+      InMemoryUserRepository,
+    } = require("../in-memory/in-memory-user-repository");
+    inMemoryUserRepository =
+      new InMemoryUserRepository() as jest.Mocked<IUserRepository>;
     createUserUseCase = new CreateUser(inMemoryUserRepository);
   });
 
   it("it must be possible to create a user with all valid fields", async () => {
-    const userDate: User = {
+    const userData: User = {
       first_name: "Joe",
       surname: "Doe",
       address: "Rua teste 123 Brasil",
@@ -27,7 +32,14 @@ describe("create-user", () => {
       unique_identifier: process.env.VALID_CPF,
     };
 
-    const user = await createUserUseCase.execute(userDate);
+    const mockUserResponse = {
+      ...userData,
+      id: "some-id",
+    };
+
+    inMemoryUserRepository.create.mockResolvedValue(mockUserResponse);
+
+    const user = await createUserUseCase.execute(userData);
 
     expect(user).toHaveProperty("first_name");
     expect(user).toHaveProperty("surname");
@@ -35,10 +47,14 @@ describe("create-user", () => {
     expect(user).toHaveProperty("status_plan");
     expect(user).toHaveProperty("email");
     expect(user).toHaveProperty("unique_identifier");
+
+    expect(inMemoryUserRepository.create).toHaveReturned();
+    expect(inMemoryUserRepository.create).toHaveBeenCalled();
+    expect(inMemoryUserRepository.create).not.toBeFalsy();
   });
 
   it("it should not be possible to create a user with a unique identifier that does not comply with", async () => {
-    const userDate: User = {
+    const userData: User = {
       first_name: "Joe",
       surname: "Doe",
       address: "Rua teste 123 Brasil",
@@ -51,7 +67,9 @@ describe("create-user", () => {
       unique_identifier: "23087625590",
     };
 
-    const response = await createUserUseCase.execute(userDate);
+    inMemoryUserRepository.uniqueIdenfierAlreadyExists.mockResolvedValue(false);
+
+    const response = await createUserUseCase.execute(userData);
 
     expect(response).toEqual({
       description: "we're sorry, but the unique identifier is invalid",
@@ -60,7 +78,7 @@ describe("create-user", () => {
   });
 
   it("it should not be possible to create a user with a non-standard email", async () => {
-    const userDate: User = {
+    const userData: User = {
       first_name: "Joe",
       surname: "Doe",
       address: "Rua teste 123 Brasil",
@@ -73,7 +91,9 @@ describe("create-user", () => {
       unique_identifier: process.env.VALID_CPF,
     };
 
-    const response = await createUserUseCase.execute(userDate);
+    inMemoryUserRepository.uniqueIdenfierAlreadyExists.mockResolvedValue(false);
+
+    const response = await createUserUseCase.execute(userData);
 
     expect(response).toEqual({
       description: "the email must meet the format: xxxx@gmail.com",
@@ -82,7 +102,7 @@ describe("create-user", () => {
   });
 
   it("should not be possible to create a user with the same unique identifier", async () => {
-    const userDate: User = {
+    const userData: User = {
       first_name: "Joe",
       surname: "Doe",
       address: "Rua teste 123 Brasil",
@@ -95,10 +115,17 @@ describe("create-user", () => {
       unique_identifier: process.env.VALID_CPF,
     };
 
-    await createUserUseCase.execute(userDate);
+    inMemoryUserRepository.uniqueIdenfierAlreadyExists.mockResolvedValueOnce(
+      false
+    );
+    inMemoryUserRepository.uniqueIdenfierAlreadyExists.mockResolvedValueOnce(
+      true
+    );
+
+    await createUserUseCase.execute(userData);
 
     const result = await createUserUseCase
-      .execute(userDate)
+      .execute(userData)
       .catch((err) => err);
 
     expect(result).toEqual({

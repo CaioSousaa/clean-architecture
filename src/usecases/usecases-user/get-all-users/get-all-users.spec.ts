@@ -3,21 +3,26 @@ import { User } from "../../../domain/entities/user";
 import { CreateUser } from "../create-user/create-user";
 import { GetAllUsers } from "./get-all-users";
 import { IUserRepository } from "../../ports/IUser-respository";
-import { InMemoryUserRepository } from "../in-memory/in-memory-user-repository";
+
+jest.mock("../in-memory/in-memory-user-repository");
 
 describe("get-all-users", () => {
-  let inMemory: IUserRepository;
+  let inMemoryUserRepository: jest.Mocked<IUserRepository>;
   let createUser: CreateUser;
   let getAllUsers: GetAllUsers;
 
   beforeEach(() => {
-    inMemory = new InMemoryUserRepository();
-    createUser = new CreateUser(inMemory);
-    getAllUsers = new GetAllUsers(inMemory);
+    const {
+      InMemoryUserRepository,
+    } = require("../in-memory/in-memory-user-repository");
+    inMemoryUserRepository =
+      new InMemoryUserRepository() as jest.Mocked<IUserRepository>;
+    createUser = new CreateUser(inMemoryUserRepository);
+    getAllUsers = new GetAllUsers(inMemoryUserRepository);
   });
 
-  it("should return all users", async () => {
-    const userDate: User = {
+  it("should mock the creation of a user and retrieving all users", async () => {
+    const mockUserData: User = {
       first_name: "Joe",
       surname: "Doe",
       address: "Rua teste 123 Brasil",
@@ -30,11 +35,35 @@ describe("get-all-users", () => {
       unique_identifier: process.env.VALID_CPF,
     };
 
-    await createUser.execute(userDate);
+    const mockUserResponse = { ...mockUserData, id: "some-id" };
+
+    inMemoryUserRepository.create.mockResolvedValue(mockUserResponse);
+
+    inMemoryUserRepository.getAllUsers.mockResolvedValue([mockUserResponse]);
+
+    const createdUser = await createUser.execute(mockUserData);
+    expect(inMemoryUserRepository.create).toHaveBeenCalledTimes(1);
+    expect(createdUser).toEqual(mockUserResponse);
 
     const result = await getAllUsers.execute();
-    const users = result.users || [];
+    const users = result.users;
+
+    expect(inMemoryUserRepository.getAllUsers).toHaveBeenCalledTimes(1);
+    expect(users).toEqual([mockUserResponse]);
 
     expect(users).toHaveLength(1);
+    expect(users[0]).toHaveProperty("first_name", "Joe");
+    expect(users[0]).toHaveProperty("email", "emailtest@gmail.com");
+  });
+
+  it("should return an empty list if no users exist", async () => {
+    inMemoryUserRepository.getAllUsers.mockResolvedValue([]);
+
+    const result = await getAllUsers.execute();
+    const users = result.users;
+
+    expect(inMemoryUserRepository.getAllUsers).toHaveBeenCalledTimes(1);
+    expect(users).toEqual([]);
+    expect(users).toHaveLength(0);
   });
 });
