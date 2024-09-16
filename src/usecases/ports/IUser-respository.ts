@@ -5,4 +5,5 @@ export interface IUserRepository {
   uniqueIdenfierAlreadyExists(unique_identifier: string): Promise<Boolean>;
   getAllUsers(): Promise<User[]>;
   findUserById(id: string): Promise<User>;
+  findUserByEmail(email: string): Promise<User>;
 }
