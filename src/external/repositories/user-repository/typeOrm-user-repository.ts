@@ -4,6 +4,12 @@ import { AppDataSource } from "../../postgres/data-source";
 import { UserEntityDb } from "../../../infra/db/entities/user/user-entity-db";
 
 export class TypeOrmUserRepository implements IUserRepository {
+  async deleteUser(id: string): Promise<void> {
+    await AppDataSource.getRepository(UserEntityDb).delete({
+      id: id,
+    });
+  }
+
   async findUserByEmail(email: string): Promise<User> {
     const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
       email: email,
