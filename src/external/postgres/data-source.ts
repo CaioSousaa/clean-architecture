@@ -5,6 +5,8 @@ import { CreateTableUser1725482215943 } from "../../infra/db/migrations/17254822
 import { CreateCardBank1725840266068 } from "../../infra/db/migrations/1725840266068-create-card-bank";
 import { UpdateUser1725841168797 } from "../../infra/db/migrations/1725841168797-update-user";
 import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-entity-db";
+import { Token1726955412063 } from "../../infra/db/migrations/1726955412063-Token";
+import { TokenEntityDb } from "../../infra/db/entities/token/token-entity-db";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,11 +15,12 @@ export const AppDataSource = new DataSource({
   username: process.env.USER,
   password: String(process.env.PASSWORD),
   database: process.env.NAME,
-  entities: [UserEntityDb, CardBankEntityDb],
+  entities: [UserEntityDb, CardBankEntityDb, TokenEntityDb],
   migrations: [
     CreateTableUser1725482215943,
     CreateCardBank1725840266068,
     UpdateUser1725841168797,
+    Token1726955412063,
   ],
   migrationsRun: true,
 });

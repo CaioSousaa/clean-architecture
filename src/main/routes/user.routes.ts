@@ -3,6 +3,8 @@ import { createUserFactory } from "../factories/create-user-factory";
 import { getAllUsersFactory } from "../factories/get-all-users-factory";
 import { findUserByIdFactory } from "../factories/find-by-id-factory";
 import { deleteUserFactory } from "../factories/delete-user-factory";
+import { sendTokenAcessByEmail } from "../factories/send-token-acess-by-email";
+import { ensureAuthenticated } from "../middleware/ensure-authenticate";
 
 const userRoutes = Router();
 
@@ -21,5 +23,13 @@ userRoutes.get("/user/:id", async (req, res) => {
 userRoutes.delete("/user/delete/:id", async (req, res) => {
   return deleteUserFactory().handle(req, res);
 });
+
+userRoutes.post(
+  "/user/send-email/:id",
+  ensureAuthenticated,
+  async (req, res) => {
+    return sendTokenAcessByEmail().handle(req, res);
+  }
+);
 
 export { userRoutes };
