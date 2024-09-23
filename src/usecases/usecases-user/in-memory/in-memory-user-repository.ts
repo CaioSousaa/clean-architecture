@@ -3,6 +3,22 @@ import { IUserRepository } from "../../ports/IUser-respository";
 import { v4 as uuid } from "uuid";
 
 export class InMemoryUserRepository implements IUserRepository {
+  private users: User[] = [];
+  async updateUser(
+    id: string,
+    email?: string,
+    password?: string,
+    address?: string
+  ): Promise<User> {
+    const user = this.users.find((u) => u.id === id);
+
+    user.email = email;
+    user.password = password;
+    user.address = address;
+
+    return user;
+  }
+
   async findUserByEmail(email: string): Promise<User> {
     const userByEmail = this.users.find((e) => e.email === email);
 
@@ -12,8 +28,6 @@ export class InMemoryUserRepository implements IUserRepository {
     const index = this.users.findIndex((user) => user.id === id);
     this.users.splice(index, 1);
   }
-
-  private users: User[] = [];
   async create(user: User): Promise<User> {
     Object.assign(user, {
       id: uuid(),
