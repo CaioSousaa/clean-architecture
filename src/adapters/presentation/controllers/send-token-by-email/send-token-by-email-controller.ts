@@ -9,6 +9,6 @@ export class SendTokenByEmailController {
 
     const sendTokenByEmail = await this.sendToken.execute(id);
 
-    res.sendStatus(201).send(sendTokenByEmail);
+    res.status(201).send(sendTokenByEmail);
   }
 }
