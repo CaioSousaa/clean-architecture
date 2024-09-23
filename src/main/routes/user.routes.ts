@@ -5,6 +5,7 @@ import { findUserByIdFactory } from "../factories/find-by-id-factory";
 import { deleteUserFactory } from "../factories/delete-user-factory";
 import { sendTokenAcessByEmail } from "../factories/send-token-acess-by-email";
 import { ensureAuthenticated } from "../middleware/ensure-authenticate";
+import { updateUserFactory } from "../factories/update-user-factory";
 
 const userRoutes = Router();
 
@@ -31,5 +32,9 @@ userRoutes.post(
     return sendTokenAcessByEmail().handle(req, res);
   }
 );
+
+userRoutes.put("/user/update/:id", ensureAuthenticated, async (req, res) => {
+  return updateUserFactory().handle(req, res);
+});
 
 export { userRoutes };
