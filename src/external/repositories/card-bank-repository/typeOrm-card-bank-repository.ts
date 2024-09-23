@@ -6,18 +6,16 @@ import { CardBank } from "../../../domain/entities/card-bank";
 export class TypeOrmCardBankRepository implements ICardBankRepository {
   async create({
     cvv,
-    id_user,
+    user,
     number_card,
     validaty,
   }: CardBank): Promise<CardBank> {
-    const cardBank = await AppDataSource.getRepository(CardBankEntityDb).create(
-      {
-        cvv,
-        id_user,
-        number_card,
-        validaty,
-      }
-    );
+    const cardBank = AppDataSource.getRepository(CardBankEntityDb).create({
+      cvv,
+      number_card,
+      validaty,
+      user,
+    });
 
     await AppDataSource.getRepository(CardBankEntityDb).save(cardBank);
 
