@@ -4,6 +4,29 @@ import { AppDataSource } from "../../postgres/data-source";
 import { UserEntityDb } from "../../../infra/db/entities/user/user-entity-db";
 
 export class TypeOrmUserRepository implements IUserRepository {
+  async updateUser(
+    id: string,
+    email?: string,
+    password?: string,
+    address?: string
+  ): Promise<User> {
+    const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
+      id: id,
+    });
+
+    const mergeUser = AppDataSource.getRepository(UserEntityDb).merge(user, {
+      password: password,
+      email: email,
+      address: address,
+    });
+
+    const newUser = await AppDataSource.getRepository(UserEntityDb).save(
+      mergeUser
+    );
+
+    return newUser;
+  }
+
   async deleteUser(id: string): Promise<void> {
     await AppDataSource.getRepository(UserEntityDb).delete({
       id: id,

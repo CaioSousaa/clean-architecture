@@ -7,4 +7,10 @@ export interface IUserRepository {
   findUserById(id: string): Promise<User>;
   findUserByEmail(email: string): Promise<User>;
   deleteUser(id: string): Promise<void>;
+  updateUser(
+    id: string,
+    email?: string,
+    password?: string,
+    address?: string
+  ): Promise<User>;
 }
