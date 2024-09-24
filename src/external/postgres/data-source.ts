@@ -7,6 +7,7 @@ import { UpdateUser1725841168797 } from "../../infra/db/migrations/1725841168797
 import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-entity-db";
 import { Token1726955412063 } from "../../infra/db/migrations/1726955412063-Token";
 import { TokenEntityDb } from "../../infra/db/entities/token/token-entity-db";
+import { UpdateCardBankAddUserId1727214395003 } from "../../infra/db/migrations/1727214395003-UpdateCardBankAddUserId";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -21,6 +22,7 @@ export const AppDataSource = new DataSource({
     CreateCardBank1725840266068,
     UpdateUser1725841168797,
     Token1726955412063,
+    UpdateCardBankAddUserId1727214395003,
   ],
   migrationsRun: true,
 });

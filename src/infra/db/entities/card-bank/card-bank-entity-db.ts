@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -19,6 +20,7 @@ export class CardBankEntityDb extends BaseEntity {
   validaty: string;
 
   @ManyToOne(() => UserEntityDb, (user) => user.card_bank)
+  @JoinColumn({ name: "id_user" })
   user: UserEntityDb;
 
   @Column()
