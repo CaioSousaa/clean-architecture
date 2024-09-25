@@ -1,3 +1,4 @@
+import { CardBank } from "../../domain/entities/card-bank";
 import { User } from "../../domain/entities/user";
 
 export interface IUserRepository {
@@ -13,4 +14,5 @@ export interface IUserRepository {
     password?: string,
     address?: string
   ): Promise<User>;
+  addCardBank(id: string, cardBank: CardBank): Promise<User>;
 }

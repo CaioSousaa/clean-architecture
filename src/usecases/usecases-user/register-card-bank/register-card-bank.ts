@@ -35,6 +35,8 @@ export class RegisterCardBank {
 
     const registerCardBank = await this.cardBankRepository.create(cardBank);
 
+    await this.userRepository.addCardBank(user_id, registerCardBank);
+
     return registerCardBank;
   }
 }

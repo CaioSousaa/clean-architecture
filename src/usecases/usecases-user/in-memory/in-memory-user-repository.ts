@@ -1,8 +1,16 @@
 import { User } from "../../../domain/entities/user";
+import { CardBankEntityDb } from "../../../infra/db/entities/card-bank/card-bank-entity-db";
 import { IUserRepository } from "../../ports/IUser-respository";
 import { v4 as uuid } from "uuid";
 
 export class InMemoryUserRepository implements IUserRepository {
+  async addCardBank(id: string, cardBank: CardBankEntityDb): Promise<User> {
+    const user = this.users.find((u) => u.id === id);
+
+    user.card_bank = [cardBank];
+    return user;
+  }
+
   private users: User[] = [];
   async updateUser(
     id: string,

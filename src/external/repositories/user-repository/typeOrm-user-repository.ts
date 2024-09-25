@@ -2,8 +2,25 @@ import { User } from "../../../domain/entities/user";
 import { IUserRepository } from "../../../usecases/ports/IUser-respository";
 import { AppDataSource } from "../../postgres/data-source";
 import { UserEntityDb } from "../../../infra/db/entities/user/user-entity-db";
+import { CardBank } from "../../../domain/entities/card-bank";
 
 export class TypeOrmUserRepository implements IUserRepository {
+  async addCardBank(id: string, cardBank: CardBank): Promise<User> {
+    const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
+      id: id,
+    });
+
+    const mergeUser = AppDataSource.getRepository(UserEntityDb).merge(user, {
+      card_bank: [cardBank],
+    });
+
+    const newUser = await AppDataSource.getRepository(UserEntityDb).save(
+      mergeUser
+    );
+
+    return newUser;
+  }
+
   async updateUser(
     id: string,
     email?: string,
