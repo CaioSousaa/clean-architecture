@@ -8,8 +8,10 @@ import { CardBankEntityDb } from "../../infra/db/entities/card-bank/card-bank-en
 import { Token1726955412063 } from "../../infra/db/migrations/1726955412063-Token";
 import { TokenEntityDb } from "../../infra/db/entities/token/token-entity-db";
 import { UpdateCardBankAddUserId1727214395003 } from "../../infra/db/migrations/1727214395003-UpdateCardBankAddUserId";
-import { PlansEntityDb } from "../../infra/db/entities/plans/plans-entity-db";
-import { Plans1727284621197 } from "../../infra/db/migrations/1727284621197-Plans";
+import { RegisterPlanEntityDb } from "../../infra/db/entities/register-plan/register-plan-entity-db";
+import { RegisterPlan1727296595802 } from "../../infra/db/migrations/1727296595802-RegisterPlan";
+import { PlanFixed1727434630569 } from "../../infra/db/migrations/1727434630569-PlanFixed";
+import { PlanEntityDb } from "../../infra/db/entities/plans/plan-entity-db";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -18,14 +20,21 @@ export const AppDataSource = new DataSource({
   username: process.env.USER,
   password: String(process.env.PASSWORD),
   database: process.env.NAME,
-  entities: [UserEntityDb, CardBankEntityDb, TokenEntityDb, PlansEntityDb],
+  entities: [
+    UserEntityDb,
+    CardBankEntityDb,
+    TokenEntityDb,
+    RegisterPlanEntityDb,
+    PlanEntityDb,
+  ],
   migrations: [
     CreateTableUser1725482215943,
     CreateCardBank1725840266068,
     UpdateUser1725841168797,
     Token1726955412063,
     UpdateCardBankAddUserId1727214395003,
-    Plans1727284621197,
+    RegisterPlan1727296595802,
+    PlanFixed1727434630569,
   ],
   migrationsRun: true,
 });

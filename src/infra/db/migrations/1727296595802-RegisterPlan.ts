@@ -1,22 +1,25 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class Plans1727284621197 implements MigrationInterface {
+export class RegisterPlan1727296595802 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "plans",
+        name: "register_plan",
         columns: [
           {
             name: "id",
-            type: "numeric",
-          },
-          {
-            name: "price_in_cent",
-            type: "numeric",
-          },
-          {
-            name: "description",
+            generationStrategy: "uuid",
             type: "varchar",
+            isPrimary: true,
+          },
+          {
+            name: "user_id",
+            type: "varchar",
+          },
+          {
+            name: "plan_id",
+            type: "enum",
+            enum: ["1", "2", "3"],
           },
         ],
       })
@@ -24,6 +27,6 @@ export class Plans1727284621197 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("plans");
+    await queryRunner.dropTable("register_plan");
   }
 }
