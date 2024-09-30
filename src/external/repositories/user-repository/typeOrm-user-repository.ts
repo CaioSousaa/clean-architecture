@@ -5,6 +5,20 @@ import { UserEntityDb } from "../../../infra/db/entities/user/user-entity-db";
 import { CardBank } from "../../../domain/entities/card-bank";
 
 export class TypeOrmUserRepository implements IUserRepository {
+  async updateStatus(id: string): Promise<User> {
+    const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
+      id,
+    });
+
+    user.status_plan = true;
+
+    const updatedUser = await AppDataSource.getRepository(UserEntityDb).save(
+      user
+    );
+
+    return updatedUser;
+  }
+
   async addCardBank(id: string, cardBank: CardBank): Promise<User> {
     const user = await AppDataSource.getRepository(UserEntityDb).findOneBy({
       id: id,

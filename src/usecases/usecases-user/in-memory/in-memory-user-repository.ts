@@ -4,6 +4,13 @@ import { IUserRepository } from "../../ports/IUser-respository";
 import { v4 as uuid } from "uuid";
 
 export class InMemoryUserRepository implements IUserRepository {
+  async updateStatus(id: string): Promise<User> {
+    const user = this.users.find((u) => u.id === id);
+
+    user.status_plan = true;
+    return user;
+  }
+
   async addCardBank(id: string, cardBank: CardBankEntityDb): Promise<User> {
     const user = this.users.find((u) => u.id === id);
 
