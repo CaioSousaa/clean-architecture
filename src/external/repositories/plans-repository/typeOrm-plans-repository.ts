@@ -4,6 +4,20 @@ import { IPlansRepository } from "../../../usecases/ports/IPlans-repository";
 import { AppDataSource } from "../../postgres/data-source";
 
 export class TypeOrmPlansRepository implements IPlansRepository {
+  async findPlans(): Promise<Plans[]> {
+    const plans = await AppDataSource.getMongoRepository(PlanEntityDb).find();
+
+    return plans;
+  }
+
+  async findById(plan_id: number): Promise<Plans> {
+    const plan = await AppDataSource.getRepository(PlanEntityDb).findOneBy({
+      id: plan_id,
+    });
+
+    return plan;
+  }
+
   async create({ id, price_in_cent, description }: Plans): Promise<Plans> {
     const plan = AppDataSource.getRepository(PlanEntityDb).create({
       id: id,
