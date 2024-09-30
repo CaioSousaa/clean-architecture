@@ -12,6 +12,7 @@ import { RegisterPlanEntityDb } from "../../infra/db/entities/register-plan/regi
 import { RegisterPlan1727296595802 } from "../../infra/db/migrations/1727296595802-RegisterPlan";
 import { PlanFixed1727434630569 } from "../../infra/db/migrations/1727434630569-PlanFixed";
 import { PlanEntityDb } from "../../infra/db/entities/plans/plan-entity-db";
+import { UpdateRegisterPlan1727702877740 } from "../../infra/db/migrations/1727702877740-UpdateRegisterPlan";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -35,6 +36,7 @@ export const AppDataSource = new DataSource({
     UpdateCardBankAddUserId1727214395003,
     RegisterPlan1727296595802,
     PlanFixed1727434630569,
+    UpdateRegisterPlan1727702877740,
   ],
   migrationsRun: true,
 });

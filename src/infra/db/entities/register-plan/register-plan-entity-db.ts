@@ -6,7 +6,7 @@ export enum PlanType {
   GOLD = 3,
 }
 
-@Entity("register-plan")
+@Entity("register_plan")
 export class RegisterPlanEntityDb {
   @PrimaryGeneratedColumn("uuid")
   id: string;
