@@ -4,6 +4,20 @@ import { CardBankEntityDb } from "../../../infra/db/entities/card-bank/card-bank
 import { CardBank } from "../../../domain/entities/card-bank";
 
 export class TypeOrmCardBankRepository implements ICardBankRepository {
+  async findCardByUserId(user_id: string): Promise<CardBank | null> {
+    const cardBank = await AppDataSource.getRepository(
+      CardBankEntityDb
+    ).findOne({
+      where: {
+        user: {
+          id: user_id,
+        },
+      },
+    });
+
+    return cardBank;
+  }
+
   async findByCVV(cvv: number): Promise<CardBank> {
     const cardBank = await AppDataSource.getRepository(
       CardBankEntityDb
