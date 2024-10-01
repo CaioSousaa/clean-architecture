@@ -4,6 +4,13 @@ import { IUserRepository } from "../../ports/IUser-respository";
 import { v4 as uuid } from "uuid";
 
 export class InMemoryUserRepository implements IUserRepository {
+  async removeStatus(user_id: string): Promise<User> {
+    const user = this.users.find((u) => u.id === user_id);
+
+    user.status_plan = false;
+    return user;
+  }
+
   async updateStatus(id: string): Promise<User> {
     const user = this.users.find((u) => u.id === id);
 

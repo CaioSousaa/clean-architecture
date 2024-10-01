@@ -16,4 +16,5 @@ export interface IUserRepository {
   ): Promise<User>;
   addCardBank(id: string, cardBank: CardBank): Promise<User>;
   updateStatus(id: string): Promise<User>;
+  removeStatus(user_id: string): Promise<User>;
 }
