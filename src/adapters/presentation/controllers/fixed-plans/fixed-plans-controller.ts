@@ -1,4 +1,4 @@
-import { CreateFixedsPlans } from "../../../../usecases/plans/create-fixed-plans";
+import { CreateFixedsPlans } from "../../../../usecases/plans/usecases/create-plans/create-fixed-plans";
 import { Request, Response } from "express";
 
 export class FixedPlansController {

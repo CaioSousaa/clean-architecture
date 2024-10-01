@@ -12,7 +12,7 @@ import { CreateUser } from "../../usecases-user/create-user/create-user";
 import { User } from "../../../domain/entities/user";
 import { RegisterCardBank } from "../../usecases-user/register-card-bank/register-card-bank";
 import { RegisterPlan } from "../../../domain/entities/register-plan";
-import { CreateFixedsPlans } from "../../plans/create-fixed-plans";
+import { CreateFixedsPlans } from "../../plans/usecases/create-plans/create-fixed-plans";
 
 describe("create-register-plan", () => {
   let inMemoryUserRepository: IUserRepository;

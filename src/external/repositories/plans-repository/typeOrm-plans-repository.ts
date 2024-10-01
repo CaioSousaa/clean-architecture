@@ -5,7 +5,7 @@ import { AppDataSource } from "../../postgres/data-source";
 
 export class TypeOrmPlansRepository implements IPlansRepository {
   async findPlans(): Promise<Plans[]> {
-    const plans = await AppDataSource.getMongoRepository(PlanEntityDb).find();
+    const plans = await AppDataSource.getRepository(PlanEntityDb).find();
 
     return plans;
   }
