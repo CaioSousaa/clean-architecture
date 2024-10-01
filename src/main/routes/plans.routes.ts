@@ -4,6 +4,7 @@ import { createRegisterPlanFactory } from "../factories/create-register-plan-fac
 import { ensureAuthenticated } from "../middleware/ensure-authenticate";
 import { getPlansFactory } from "../factories/get-plans-factory";
 import { findPlanByIdFactory } from "../factories/find-plan-by-id-factory";
+import { removePlanFactory } from "../factories/remove-plan-factory";
 
 const plansRoutes = Router();
 
@@ -26,5 +27,13 @@ plansRoutes.get("/plans/all", ensureAuthenticated, async (req, res) => {
 plansRoutes.get("/plans/:id", ensureAuthenticated, async (req, res) => {
   return findPlanByIdFactory().handle(req, res);
 });
+
+plansRoutes.delete(
+  "/plans/delete/:user_id",
+  ensureAuthenticated,
+  async (req, res) => {
+    return removePlanFactory().handle(req, res);
+  }
+);
 
 export { plansRoutes };
