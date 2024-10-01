@@ -3,6 +3,7 @@ import { fixedPlans } from "../factories/create-fixed-plans";
 import { createRegisterPlanFactory } from "../factories/create-register-plan-factory";
 import { ensureAuthenticated } from "../middleware/ensure-authenticate";
 import { getPlansFactory } from "../factories/get-plans-factory";
+import { findPlanByIdFactory } from "../factories/find-plan-by-id-factory";
 
 const plansRoutes = Router();
 
@@ -21,4 +22,9 @@ plansRoutes.post(
 plansRoutes.get("/plans/all", ensureAuthenticated, async (req, res) => {
   return getPlansFactory().handle(req, res);
 });
+
+plansRoutes.get("/plans/:id", ensureAuthenticated, async (req, res) => {
+  return findPlanByIdFactory().handle(req, res);
+});
+
 export { plansRoutes };
